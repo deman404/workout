@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
-
 import { RootSiblingParent } from "react-native-root-siblings";
+
+
 
 export default function RootLayout() {
   return (
@@ -14,9 +15,6 @@ export default function RootLayout() {
           <Stack.Screen name="PoidHeight" options={{ headerShown: false }} />
           <Stack.Screen name="Goals" options={{ headerShown: false }} />
           <Stack.Screen name="Welcom" options={{ headerShown: false }} />
-
-
-
         </Stack>
       </RootSiblingParent>
     </>

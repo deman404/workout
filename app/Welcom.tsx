@@ -15,58 +15,10 @@ import { useRouter } from "expo-router";
 
 export default function Welcome() {
   const router = useRouter();
-
-  // Create animation values for each image
-  const imagePosition1 = useRef(new Animated.Value(0)).current;
-  const imagePosition2 = useRef(new Animated.Value(0)).current;
-  const imagePosition3 = useRef(new Animated.Value(0)).current;
-
-  // Function to start the animation
-  const startAnimation = () => {
-    Animated.loop(
-      Animated.parallel([
-        Animated.sequence([
-          Animated.timing(imagePosition1, {
-            toValue: -30, // move up
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-          Animated.timing(imagePosition1, {
-            toValue: 0, // move down
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.timing(imagePosition2, {
-            toValue: 30, // move down
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-          Animated.timing(imagePosition2, {
-            toValue: 0, // move up
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.timing(imagePosition3, {
-            toValue: -30, // move up
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-          Animated.timing(imagePosition3, {
-            toValue: 0, // move down
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-        ]),
-      ])
-    ).start();
-  };
+ 
 
   useEffect(() => {
-    startAnimation(); // start animation on component mount
+    
 
     const backAction = () => {
       return true; // Prevents the back action
@@ -81,48 +33,19 @@ export default function Welcome() {
   }, []);
 
   const handleButtonPress = () => {
-    router.replace("/Gender");
+    router.replace("/(tabs)/");
   };
 
   return (
     <>
       <StatusBar barStyle="light-content" />
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Animated.View
-            style={[
-              styles.imageWrapper,
-              { transform: [{ translateY: imagePosition1 }] },
-            ]}
-          >
-            <Image
-              source={require("../assets/images/gym1.jpg")}
-              style={styles.image}
-            />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.imageWrapper,
-              { transform: [{ translateY: imagePosition2 }] },
-            ]}
-          >
-            <Image
-              source={require("../assets/images/gym2.jpg")}
-              style={styles.image}
-            />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.imageWrapper,
-              { transform: [{ translateY: imagePosition3 }] },
-            ]}
-          >
-            <Image
-              source={require("../assets/images/gym3.jpg")}
-              style={styles.image}
-            />
-          </Animated.View>
-        </View>
+        {/* Background Image */}
+        <Image
+          source={require("../assets/images/bg.png")} // Replace with your image path
+          style={styles.backgroundImage}
+        />
+
 
         {/* Overlay Gradient */}
         <LinearGradient
@@ -136,13 +59,13 @@ export default function Welcome() {
             <Text style={styles.title}>
               Welcome to<Text style={styles.titleSpan}> WorkOut</Text>
             </Text>
-            <Text style={styles.subtitle}>Your change starts here</Text>
+            <Text style={styles.subtitle}>We created the best workout for you</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={handleButtonPress}
               >
-                <Text style={styles.buttonText}>Get Started</Text>
+                <Text style={styles.buttonText}>Let's go</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -216,5 +139,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
+  },
+  backgroundImage: {
+    ...StyleSheet.absoluteFillObject, // Make image cover the entire view
+    width: "100%",
+    height: "100%",
+    
   },
 });
