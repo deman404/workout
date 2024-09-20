@@ -62,12 +62,12 @@ export default function Home() {
           showsVerticalScrollIndicator={false}>
             <View style={styles.card}>
               <Image
-                source={require("../assets/images/gym3.jpg")} // Replace with your image path
+                source={require("../assets/images/2.jpeg")} // Replace with your image path
                 style={styles.backgroundImage}
               />
               <LinearGradient
                 style={styles.overlay}
-                colors={["transparent", "#000"]}
+                colors={["transparent", "#00000088"]}
               >
                 <Text style={styles.cardTitle}>Beginner</Text>
                 <View style={styles.iconsV}>
@@ -81,12 +81,12 @@ export default function Home() {
             </View>
             <View style={styles.card}>
               <Image
-                source={require("../assets/images/gym2.jpg")} // Replace with your image path
+                source={require("../assets/images/1.jpeg")} // Replace with your image path
                 style={styles.backgroundImage}
               />
               <LinearGradient
                 style={styles.overlay}
-                colors={["transparent", "#000"]}
+                colors={["transparent", "#00000088"]}
               >
                 <Text style={styles.cardTitle}>Advanced</Text>
                 <View style={styles.iconsV}>
@@ -100,12 +100,12 @@ export default function Home() {
             </View>
             <View style={styles.card}>
               <Image
-                source={require("../assets/images/gym5.jpg")}
+                source={require("../assets/images/3.jpeg")}
                 style={styles.backgroundImage}
               />
               <LinearGradient
                 style={styles.overlay}
-                colors={["transparent", "#000"]}
+                colors={["transparent", "#00000088"]}
               >
                 <Text style={styles.cardTitle}>Expert</Text>
                 <View style={styles.iconsV}>
@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     width: "100%",
     height: "100%",
+    justifyContent:'flex-start'
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
