@@ -9,8 +9,9 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter, } from "expo-router";
+import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define type for the gender
 type GenderType = "man" | "woman";
@@ -19,6 +20,28 @@ export default function Gender() {
   const router = useRouter();
   const [selectedGender, setSelectedGender] = useState<GenderType | null>(null);
 
+  // Function to save gender in AsyncStorage
+  const saveGender = async (gender: GenderType) => {
+    try {
+      await AsyncStorage.setItem("selectedGender", gender);
+      setSelectedGender(gender);
+    } catch (error) {
+      console.error("Error saving gender:", error);
+    }
+  };
+
+  // Function to retrieve gender from AsyncStorage
+  const getGender = async () => {
+    try {
+      const storedGender = await AsyncStorage.getItem("selectedGender");
+      if (storedGender) {
+        setSelectedGender(storedGender as GenderType);
+      }
+    } catch (error) {
+      console.error("Error retrieving gender:", error);
+    }
+  };
+
   const handleButtonPress = () => {
     if (selectedGender) {
       router.replace("/Age");
@@ -26,12 +49,13 @@ export default function Gender() {
   };
 
   const handleGenderSelect = (gender: GenderType) => {
-    setSelectedGender(gender);
+    saveGender(gender); // Save the selected gender
   };
 
   useEffect(() => {
+    getGender(); // Retrieve gender when the component mounts
+
     const backAction = () => {
-      //Toast.show("Back navigation is disabled on this page");
       return true; // Prevents the back action
     };
 

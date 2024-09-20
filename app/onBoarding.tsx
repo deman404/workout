@@ -19,7 +19,7 @@ export default function OnBoarding() {
     const router = useRouter(); 
 
   const handleButtonPress = () => {
-    router.replace('/Goals'); 
+    router.replace('/Gender'); 
   };
 
   useEffect(() => {

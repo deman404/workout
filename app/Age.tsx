@@ -11,17 +11,39 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Age() {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  
+
+  // Function to save date in AsyncStorage
+  const saveDate = async (date: Date) => {
+    try {
+      await AsyncStorage.setItem("selectedDate", date.toISOString());
+      setSelectedDate(date);
+    } catch (error) {
+      console.error("Error saving date:", error);
+    }
+  };
+
+  // Function to retrieve date from AsyncStorage
+  const getDate = async () => {
+    try {
+      const storedDate = await AsyncStorage.getItem("selectedDate");
+      if (storedDate) {
+        setSelectedDate(new Date(storedDate));
+      }
+    } catch (error) {
+      console.error("Error retrieving date:", error);
+    }
+  };
 
   useEffect(() => {
+    getDate(); // Retrieve the date when the component mounts
+
     const backAction = () => {
-      //Toast.show("Back navigation is disabled on this page");
       return true; // Prevents the back action
     };
 
@@ -40,7 +62,7 @@ export default function Age() {
   };
 
   const handleConfirm = (date: Date) => {
-    setSelectedDate(date);
+    saveDate(date); // Save the selected date
     setDatePickerVisibility(false);
   };
 

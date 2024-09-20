@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StatusBar,
-  Animated,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -12,14 +11,12 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Welcome() {
   const router = useRouter();
- 
 
   useEffect(() => {
-    
-
     const backAction = () => {
       return true; // Prevents the back action
     };
@@ -32,8 +29,16 @@ export default function Welcome() {
     }
   }, []);
 
-  const handleButtonPress = () => {
-    router.replace("/(tabs)/");
+  const handleButtonPress = async () => {
+    // Save values in AsyncStorage
+    try {
+      await AsyncStorage.setItem("hasSeenWelcome", "true");
+      // You can save other relevant data here as needed
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+    
+    router.replace("/Home");
   };
 
   return (
@@ -45,7 +50,6 @@ export default function Welcome() {
           source={require("../assets/images/bg.png")} // Replace with your image path
           style={styles.backgroundImage}
         />
-
 
         {/* Overlay Gradient */}
         <LinearGradient
@@ -79,26 +83,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000000",
-  },
-  imageContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    marginTop: 50,
-  },
-  imageWrapper: {
-    borderRadius: 20,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 5,
-  },
-  image: {
-    width: 120,
-    height: 200,
-    borderRadius: 15,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -144,6 +128,5 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject, // Make image cover the entire view
     width: "100%",
     height: "100%",
-    
   },
 });

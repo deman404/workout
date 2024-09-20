@@ -10,10 +10,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import SelectTap from "../components/SelectTap";
-
-// Define type for the gender
-type GenderType = "man" | "woman";
 
 // Define type for SelectTap items
 interface SelectTapItem {
@@ -24,9 +22,6 @@ interface SelectTapItem {
 
 export default function Goals() {
   const router = useRouter();
-  const [selectedGender, setSelectedGender] = useState<GenderType | null>(null);
-
-  // Create an array of SelectTap items
   const [selectTaps, setSelectTaps] = useState<SelectTapItem[]>([
     { id: 1, label: "Improve overall fitness", isChecked: false },
     { id: 2, label: "Lose body fat", isChecked: false },
@@ -35,9 +30,29 @@ export default function Goals() {
     { id: 5, label: "Increase flexibility", isChecked: false },
   ]);
 
-  const handleButtonPress = () => {
-    if (selectTaps) {
-      router.replace("/Welcom");
+  useEffect(() => {
+    const backAction = () => true; // Prevents back navigation
+    if (Platform.OS === "android") {
+      BackHandler.addEventListener("hardwareBackPress", backAction);
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+      };
+    }
+  }, []);
+
+  const handleButtonPress = async () => {
+    if (selectTaps.some((tap) => tap.isChecked)) {
+      // Save the selected goals in AsyncStorage
+      const selectedGoals = selectTaps.filter((tap) => tap.isChecked);
+      try {
+        await AsyncStorage.setItem(
+          "selectedGoals",
+          JSON.stringify(selectedGoals)
+        );
+        router.replace("/Welcom");
+      } catch (error) {
+        console.error("Error saving data", error);
+      }
     }
   };
 
@@ -48,24 +63,6 @@ export default function Goals() {
       )
     );
   };
-
-  const handleGenderSelect = (gender: GenderType) => {
-    setSelectedGender(gender);
-  };
-
-  useEffect(() => {
-    const backAction = () => {
-      //Toast.show("Back navigation is disabled on this page");
-      return true; // Prevents the back action
-    };
-
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-      };
-    }
-  }, []);
 
   return (
     <>
@@ -88,11 +85,10 @@ export default function Goals() {
             <TouchableOpacity
               style={[
                 styles.button,
-                (!selectTaps || !selectTaps.some((tab) => tab.isChecked)) &&
-                  styles.buttonDisabled,
+                !selectTaps.some((tap) => tap.isChecked) && styles.buttonDisabled,
               ]}
               onPress={handleButtonPress}
-              disabled={!selectTaps || !selectTaps.some((tab) => tab.isChecked)}
+              disabled={!selectTaps.some((tap) => tap.isChecked)}
             >
               <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
@@ -150,18 +146,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
-  },
-  gender: {
-    backgroundColor: "#686D76",
-    borderRadius: 180,
-    padding: 5,
-    width: 130,
-    height: 130,
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 10,
-  },
-  selectedGender: {
-    backgroundColor: "#4F75FF", // Highlight color for selected gender
   },
 });

@@ -12,16 +12,40 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Picker as RNPicker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PoidHeight() {
   const router = useRouter();
   const [selectPoid, getSelectedPoid] = useState<string>("");
   const [selectHeight, getSelectedHeight] = useState<string>("");
 
+  // Save weight and height in AsyncStorage
+  const savePoidHeight = async (poid: string, height: string) => {
+    try {
+      await AsyncStorage.setItem("selectedPoid", poid);
+      await AsyncStorage.setItem("selectedHeight", height);
+    } catch (error) {
+      console.error("Error saving weight and height:", error);
+    }
+  };
+
+  // Retrieve weight and height from AsyncStorage
+  const getPoidHeight = async () => {
+    try {
+      const storedPoid = await AsyncStorage.getItem("selectedPoid");
+      const storedHeight = await AsyncStorage.getItem("selectedHeight");
+      if (storedPoid) getSelectedPoid(storedPoid);
+      if (storedHeight) getSelectedHeight(storedHeight);
+    } catch (error) {
+      console.error("Error retrieving weight and height:", error);
+    }
+  };
+
   useEffect(() => {
+    getPoidHeight(); // Retrieve the stored weight and height when component mounts
+
     const backAction = () => {
-      // Toast.show("Back navigation is disabled on this page");
-      return true; // Prevents the back action
+      return true; // Prevent back navigation
     };
 
     if (Platform.OS === "android") {
@@ -34,6 +58,7 @@ export default function PoidHeight() {
 
   const handleButtonPress = () => {
     if (selectPoid && selectHeight) {
+      savePoidHeight(selectPoid, selectHeight); // Save selected values
       router.replace("/Goals");
     }
   };
@@ -44,7 +69,7 @@ export default function PoidHeight() {
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.topOverly}>
-            <Text style={styles.title}>What is your weight</Text>
+            <Text style={styles.title}>What is your weight?</Text>
             <RNPicker
               selectedValue={selectPoid}
               style={styles.picker}
@@ -57,12 +82,11 @@ export default function PoidHeight() {
                   label={`${weight} kg`}
                   value={`${weight}`}
                   color="#4F75FF"
-                
                 />
               ))}
             </RNPicker>
 
-            <Text style={styles.title}>What is your height</Text>
+            <Text style={styles.title}>What is your height?</Text>
             <RNPicker
               selectedValue={selectHeight}
               style={styles.picker}
@@ -142,7 +166,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 25,
     width: 230,
-    marginVertical:15,
+    marginVertical: 15,
   },
   buttonDisabled: {
     backgroundColor: "#b0b0b0", // Gray color for disabled button

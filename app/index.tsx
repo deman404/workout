@@ -1,38 +1,43 @@
-import {
-  Text,
-  View,
-  StatusBar,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  SafeAreaViewBase,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { useRouter } from "expo-router"; // Import useRouter
-
+import { View, StyleSheet, Image, StatusBar } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function Index() {
-  const router = useRouter(); // Get the router object
+  const router = useRouter();
+
+  // Function to check if all required data is stored in AsyncStorage
+  const checkUserData = async () => {
+    try {
+      const hasSeenWelcome = await AsyncStorage.getItem("hasSeenWelcome");
+      if (hasSeenWelcome) {
+        router.replace("/Home");
+      } else {
+        router.replace("/onBoarding");
+      }
+    } catch (error) {
+      console.error("Error checking user data:", error);
+      router.replace("/onBoarding");
+    }
+  };
+  
+
+  // Use effect to call the checkUserData function
   useEffect(() => {
-      const timer = setTimeout(() => {
-        router.replace('/onBoarding'); // Navigate to the Login page after 3 seconds
-      }, 3000); // 3000ms = 3 seconds
-  
-      return () => clearTimeout(timer); // Cleanup the timer if component unmounts
-    }, []);
-  
+    const timer = setTimeout(() => {
+      checkUserData();
+    }, 3000); // Wait for 3 seconds before checking
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
       <LinearGradient
         style={styles.safeArea}
         colors={["#4F75FF", "#6439FF"]}
-        start={{ x: 0, y: 0 }} // Start on left
-        end={{ x: 1, y: 0 }} // End on right
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
       >
         <StatusBar backgroundColor="#6362ed" barStyle="light-content" />
         <Image
@@ -47,9 +52,9 @@ export default function Index() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#6362ed",
-    justifyContent: "center", // centers vertically
-    alignItems: "center", // centers horizontally
   },
   logo: {
     width: 150,
