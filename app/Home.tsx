@@ -60,11 +60,12 @@ export default function Home() {
         {/* Body */}
         <ScrollView style={styles.body} contentContainerStyle={styles.scrollViewContent}
           showsVerticalScrollIndicator={false}>
-            <View style={styles.card}>
+            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Beginner");}}>
               <Image
                 source={require("../assets/images/2.jpeg")} // Replace with your image path
                 style={styles.backgroundImage}
               />
+              
               <LinearGradient
                 style={styles.overlay}
                 colors={["transparent", "#00000088"]}
@@ -78,8 +79,8 @@ export default function Home() {
                 <FontAwesome5 name="fire" size={24} color="white" style={styles.iconOp}/>
                 </View>
               </LinearGradient>
-            </View>
-            <View style={styles.card}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Home");}}>
               <Image
                 source={require("../assets/images/1.jpeg")} // Replace with your image path
                 style={styles.backgroundImage}
@@ -97,8 +98,8 @@ export default function Home() {
                 <FontAwesome5 name="fire" size={24} color="white" style={styles.iconOp}/>
                 </View>
               </LinearGradient>
-            </View>
-            <View style={styles.card}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Home");}}>
               <Image
                 source={require("../assets/images/3.jpeg")}
                 style={styles.backgroundImage}
@@ -116,7 +117,7 @@ export default function Home() {
                 <FontAwesome5 name="fire" size={24} color="white" style={styles.icon}/>
                 </View>
               </LinearGradient>
-            </View>
+            </TouchableOpacity>
         </ScrollView>
         
       </View>

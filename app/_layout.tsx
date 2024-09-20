@@ -16,6 +16,8 @@ export default function RootLayout() {
           <Stack.Screen name="Goals" options={{ headerShown: false }} />
           <Stack.Screen name="Welcom" options={{ headerShown: false }} />
           <Stack.Screen name="Home" options={{ headerShown: false }} />
+          <Stack.Screen name="Beginner" options={{ headerShown: false }} />
+
 
         </Stack>
       </RootSiblingParent>
