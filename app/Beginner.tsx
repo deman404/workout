@@ -28,12 +28,16 @@ export default function Beginner() {
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/05/Barbell-Bench-Press.jpg",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
     {
       title: "Incline Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2023/11/Incline-Barbell-Bench-Press.jpg",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
     {
       title: "Decline Bench Press",
@@ -46,26 +50,39 @@ export default function Beginner() {
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/12/Reverse-Grip-Bench-Press.webp",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
     {
       title: "Barbell Pullover",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2022/05/Barbell-Pullover.jpg",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
     {
       title: " Close-Grip Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/06/Close-Grip-Bench-Press-1024x576.jpg",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
     {
       title: "Incline Reverse Grip Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2023/11/Reverse-Grip-Incline-barbell-Bench-Press.jpg",
       fireIcons: 1, // Number of fire icons for difficulty
+      data:'',
+      repiteCount: 10,
     },
   ];
+
+
+  const onClick = ()=>{
+    router.replace('/Practice');
+  }
 
   return (
     <>
@@ -94,7 +111,7 @@ export default function Beginner() {
           showsVerticalScrollIndicator={false}
         >
           {workouts.map((workout, index) => (
-            <TouchableOpacity key={index} style={styles.card}>
+            <TouchableOpacity key={index} style={styles.card} onPress={onClick}>
               <Image
                 source={{ uri: workout.imageUrl }}
                 style={styles.backgroundImage}

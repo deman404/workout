@@ -68,7 +68,7 @@ export default function Home() {
               
               <LinearGradient
                 style={styles.overlay}
-                colors={["transparent", "#00000088"]}
+                colors={["transparent", "#00000088"]}                        
               >
                 <Text style={styles.cardTitle}>Beginner</Text>
                 <View style={styles.iconsV}>
