@@ -25,7 +25,7 @@ export default function Practice() {
 
   const handleProfilePress = () => {
     // Navigate to profile page
-    router.push("/Home");
+    router.replace("/Beginner");
   };
 
   return (
@@ -36,10 +36,8 @@ export default function Practice() {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >
-        <Image
-          source={require("../assets/images/gym.png")} // Replace with your logo path
-          style={styles.logo}
-        />
+        <AntDesign name="back" size={24} color="white" />
+
         <Text style={styles.cardTitle}>Beginner</Text>
         <TouchableOpacity onPress={handleProfilePress}>
           <AntDesign name="user" size={24} color="white" />
@@ -51,8 +49,36 @@ export default function Practice() {
         <Text style={styles.repiteCount}>Repetitions: {repiteCount}</Text>
         <View style={styles.iconsContainer}>
           {Array.from({ length: fireIcons }).map((_, i) => (
-            <FontAwesome5 key={i} name="fire" size={24} color="red" />
+            <FontAwesome5 key={i} name="fire" size={24} color="white" paddingHorizontal={5} />
           ))}
+        </View>
+      </View>
+
+      <View style={styles.overlay}>
+        <View
+          style={{
+            flexDirection: "row",
+            backgroundColor: "#6263ed",
+            padding: 10,
+            width: "90%",
+            marginHorizontal: 15,
+            borderRadius: 15,
+            alignItems:'center',
+          }}
+        >
+          <View style={{ width: "75%" }}>
+            <Text style={{ color: "#fff" ,paddingHorizontal:15}}>You did it ?</Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              width: "25%",
+              backgroundColor: "#ffffff",
+              padding: 8,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ color: "#000" ,textAlign:'center'}}>Done</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -67,8 +93,8 @@ const styles = StyleSheet.create({
   containerp: {
     flex: 1,
     backgroundColor: "#181920",
-    alignItems:'center',
-    padding:16,
+    alignItems: "center",
+    padding: 16,
   },
   title: {
     fontSize: 24,
@@ -101,13 +127,16 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
   },
-  logo: {
-    width: 24,
-    height: 24, // Adjust size as needed
-  },
+
   cardTitle: {
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Cover entire area
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingBottom: 50,
   },
 });
