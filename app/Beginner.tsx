@@ -11,8 +11,15 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+
+// Define the Workout type
+type Workout = {
+  title: string;
+  imageUrl: string;
+  fireIcons: number;
+  repiteCount?: number; // Optional if not all workouts have repiteCount
+};
 
 export default function Beginner() {
   const router = useRouter();
@@ -22,67 +29,70 @@ export default function Beginner() {
     router.push("/Home");
   };
 
-  const workouts = [
+  // Array of workout objects
+  const workouts: Workout[] = [
     {
       title: "Barbell Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/05/Barbell-Bench-Press.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 4,
       repiteCount: 10,
     },
     {
       title: "Incline Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2023/11/Incline-Barbell-Bench-Press.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 1,
       repiteCount: 10,
     },
     {
       title: "Decline Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2023/12/Barbell-Decline-Press.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
+      fireIcons: 1,
     },
     {
       title: "Reverse Grip Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/12/Reverse-Grip-Bench-Press.webp",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 1,
       repiteCount: 10,
     },
     {
       title: "Barbell Pullover",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2022/05/Barbell-Pullover.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 1,
       repiteCount: 10,
     },
     {
-      title: " Close-Grip Bench Press",
+      title: "Close-Grip Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2021/06/Close-Grip-Bench-Press-1024x576.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 1,
       repiteCount: 10,
     },
     {
       title: "Incline Reverse Grip Bench Press",
       imageUrl:
         "https://fitliferegime.com/wp-content/uploads/2023/11/Reverse-Grip-Incline-barbell-Bench-Press.jpg",
-      fireIcons: 1, // Number of fire icons for difficulty
-      data:'',
+      fireIcons: 1,
       repiteCount: 10,
     },
   ];
 
-
-  const onClick = ()=>{
-    router.replace('/Practice');
-  }
+  const onClick = (workout: Workout) => {
+    // Pass workout data to the Practice page using the query params
+    router.replace({
+      pathname: "/Practice",
+      params: {
+        title: workout.title,
+        imageUrl: workout.imageUrl,
+        fireIcons: workout.fireIcons,
+        repiteCount: workout.repiteCount,
+      },
+    });
+  };
 
   return (
     <>
@@ -111,7 +121,7 @@ export default function Beginner() {
           showsVerticalScrollIndicator={false}
         >
           {workouts.map((workout, index) => (
-            <TouchableOpacity key={index} style={styles.card} onPress={onClick}>
+            <TouchableOpacity key={index} style={styles.card} onPress={() => onClick(workout)}>
               <Image
                 source={{ uri: workout.imageUrl }}
                 style={styles.backgroundImage}
