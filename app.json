@@ -13,13 +13,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch",
+          "remote-notification"
+        ]
+      },
+      "bundleIdentifier": "com.workout.testapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED"
+      ],
+      "package": "com.workout.testapp"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +42,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "55ccde8b-2950-44e3-95d3-9ffa902483d6"
+      }
     }
   }
 }

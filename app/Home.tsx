@@ -15,6 +15,7 @@ import { useRouter } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import * as Notifications from "expo-notifications";
 
 export default function Home() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function Home() {
 
   const handleProfilePress = () => {
     // Navigate to profile page
-    router.push("/Home");
+    router.push("/Profile");
   };
 
   return (
@@ -75,7 +76,7 @@ export default function Home() {
                 </View>
               </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Home");}}>
+            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Advanced");}}>
               <Image
                 source={require("../assets/images/1.jpeg")} // Replace with your image path
                 style={styles.backgroundImage}
@@ -94,7 +95,7 @@ export default function Home() {
                 </View>
               </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Home");}}>
+            <TouchableOpacity style={styles.card} onPress={()=>{router.push("/Expert");}}>
               <Image
                 source={require("../assets/images/3.jpeg")}
                 style={styles.backgroundImage}
