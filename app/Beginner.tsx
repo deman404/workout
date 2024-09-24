@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StatusBar,
@@ -7,146 +7,193 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Modal,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-
-// Define the Workout type
-type Workout = {
-  title: string;
-  imageUrl: string;
-  fireIcons: number;
-  repiteCount?: number; // Optional if not all workouts have repiteCount
-};
+import { Ionicons } from "@expo/vector-icons";
+import { Checkbox } from "react-native-paper";
 
 export default function Beginner() {
   const router = useRouter();
+  const [modalVisible, setModalVisible] = useState(false); // Track modal visibility
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null); // Track selected image
 
+  const handleImagePress = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl); // Set the selected image URL
+    setModalVisible(true); // Show the modal
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false); // Hide the modal
+    setSelectedImageUrl(null); // Clear the selected image
+  };
   const handleProfilePress = () => {
-    // Navigate to profile page
     router.push("/Home");
   };
 
+  const [checkedItems, setCheckedItems] = React.useState<boolean[]>([]);
+
   // Array of workout objects
-  const workouts: Workout[] = [
+  const workouts = [
     {
-      title: "Barbell Bench Press",
+      title: "Dumbbell Bench Press",
       imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2021/05/Barbell-Bench-Press.jpg",
-      fireIcons: 4,
-      repiteCount: 10,
+        "https://cdn.muscleandstrength.com/sites/default/files/dumbbell-bench-press_0.jpg",
+      setts: 1,
+      repiteCount: 12,
+    },
+    {
+      title: "Incline Dumbbell Bench Press",
+      imageUrl:
+        "https://cdn.muscleandstrength.com/sites/default/files/incline-dumbbell-bench-press_0.jpg",
+      setts: 1,
+      repiteCount: 12,
+    },
+    {
+      title: "Dumbbell Pullover",
+      imageUrl:
+        "https://cdn.muscleandstrength.com/sites/default/files/dumbbell-pullover.jpg",
+      setts: 1,
+      repiteCount: 12,
+    },
+    {
+      title: "Dumbbell Flys",
+      imageUrl:
+        "https://cdn.muscleandstrength.com/sites/default/files/dumbbell-fly.jpg",
+      setts: 1,
+      repiteCount: 12,
     },
     {
       title: "Incline Bench Press",
       imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2023/11/Incline-Barbell-Bench-Press.jpg",
-      fireIcons: 1,
-      repiteCount: 10,
+        "https://cdn.muscleandstrength.com/sites/default/files/incline-bench-press.jpg",
+      setts: 1,
+      repiteCount: 12,
     },
     {
-      title: "Decline Bench Press",
+      title: "Pec Dec",
       imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2023/12/Barbell-Decline-Press.jpg",
-      fireIcons: 1,
+        "https://cdn.muscleandstrength.com/sites/default/files/machine-fly.jpg",
+      setts: 1,
+      repiteCount: 12,
     },
     {
-      title: "Reverse Grip Press",
+      title: "Barbell Bench Press",
       imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2021/12/Reverse-Grip-Bench-Press.webp",
-      fireIcons: 1,
-      repiteCount: 10,
-    },
-    {
-      title: "Barbell Pullover",
-      imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2022/05/Barbell-Pullover.jpg",
-      fireIcons: 1,
-      repiteCount: 10,
-    },
-    {
-      title: "Close-Grip Bench Press",
-      imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2021/06/Close-Grip-Bench-Press-1024x576.jpg",
-      fireIcons: 1,
-      repiteCount: 10,
-    },
-    {
-      title: "Incline Reverse Grip Bench Press",
-      imageUrl:
-        "https://fitliferegime.com/wp-content/uploads/2023/11/Reverse-Grip-Incline-barbell-Bench-Press.jpg",
-      fireIcons: 1,
-      repiteCount: 10,
+        "https://cdn.muscleandstrength.com/sites/default/files/barbell-bench-press_0.jpg",
+      setts: 1,
+      repiteCount: 12,
     },
   ];
 
-  const onClick = (workout: Workout) => {
-    // Pass workout data to the Practice page using the query params
-    router.replace({
-      pathname: "/Practice",
-      params: {
-        title: workout.title,
-        imageUrl: workout.imageUrl,
-        fireIcons: workout.fireIcons,
-        repiteCount: workout.repiteCount,
-      },
-    });
+  const toggleCheck = (index: number) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
   };
 
   return (
     <>
       <StatusBar barStyle="light-content" />
       <View style={styles.container}>
-        <LinearGradient
-          style={styles.header}
-          colors={["#4F75FF", "#6439FF"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          <Image
-            source={require("../assets/images/gym.png")} // Replace with your logo path
-            style={styles.logo}
-          />
-          <Text style={styles.cardTitle}>Beginner</Text>
-          <TouchableOpacity onPress={handleProfilePress}>
-            <AntDesign name="user" size={24} color="white" />
-          </TouchableOpacity>
-        </LinearGradient>
-
-        {/* ScrollView for workout cards */}
-        <ScrollView
-          style={styles.body}
-          contentContainerStyle={styles.scrollViewContent}
-          showsVerticalScrollIndicator={false}
-        >
-          {workouts.map((workout, index) => (
-            <TouchableOpacity key={index} style={styles.card} onPress={() => onClick(workout)}>
-              <Image
-                source={{ uri: workout.imageUrl }}
-                style={styles.backgroundImage}
-              />
-              <LinearGradient
-                style={styles.overlay}
-                colors={["transparent", "#00000099"]}
-              >
-                <Text style={styles.cardTitle}>{workout.title}</Text>
-                <View style={styles.iconsV}>
-                  {/* Render the number of fire icons based on the difficulty */}
-                  {Array.from({ length: workout.fireIcons }).map((_, i) => (
-                    <FontAwesome5
-                      key={i}
-                      name="fire"
-                      size={24}
-                      color="white"
-                      style={styles.icon}
-                    />
-                  ))}
-                </View>
-              </LinearGradient>
+        <Image
+          source={{
+            uri: "https://cdn.muscleandstrength.com/sites/default/files/styles/800x500/public/12_week_fat_destroyer_-_1200x630.jpg?itok=ki1i9dcq",
+          }} // Replace with your image path
+          style={styles.backgroundImage}
+        />
+        <View style={styles.overlay}>
+          <View style={styles.Topcontent}>
+            <TouchableOpacity style={styles.icon} onPress={handleProfilePress}>
+              <Ionicons name="arrow-back" size={24} color="white" />
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+          </View>
+
+          {/* Modal for fullscreen image */}
+          {/* Modal for fullscreen image */}
+          <Modal
+            visible={modalVisible}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={handleCloseModal}
+          >
+            <View style={styles.modalContainer}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={handleCloseModal}
+              >
+                <Ionicons name="close" size={32} color="#fff" />
+              </TouchableOpacity>
+
+              {/* Conditionally render the Image if selectedImageUrl exists */}
+              {selectedImageUrl && (
+                <Image
+                  source={{ uri: selectedImageUrl }}
+                  style={styles.fullScreenImage}
+                  resizeMode="contain"
+                />
+              )}
+            </View>
+          </Modal>
+
+          {/* Content */}
+          <View style={styles.content}>
+            <ScrollView
+              style={styles.body}
+              contentContainerStyle={styles.scrollViewContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Top of the workout list */}
+              <View style={styles.TextView}>
+                <Text style={styles.cardTitle}>Beginner workout</Text>
+                <View style={styles.btn}>
+                  <Text style={styles.exercise}>7 workouts</Text>
+                </View>
+              </View>
+
+              {/* Workout list */}
+              <View style={styles.lontrima}>
+                {workouts.map((workout, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.lontrimaItems}
+                    onPress={() => toggleCheck(index)}
+                  >
+                    <TouchableOpacity
+                      onPress={() => handleImagePress(workout.imageUrl)}
+                    >
+                      <Image
+                        source={{ uri: workout.imageUrl }}
+                        style={styles.imag}
+                      />
+                    </TouchableOpacity>
+                    <View style={styles.ViewItems}>
+                      <Text style={styles.Title}>{workout.title}</Text>
+                      <View style={styles.Viewsets}>
+                        <Text style={styles.sets}>
+                          {workout.setts
+                            ? `${workout.setts} setts`
+                            : "No set info"}
+                        </Text>
+                        <Text style={styles.sets}>
+                          {workout.repiteCount
+                            ? `${workout.repiteCount} repets`
+                            : "No set info"}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.BoxCheck}>
+                      <Checkbox
+                        status={checkedItems[index] ? "checked" : "unchecked"}
+                        color="#fff"
+                      />
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
       </View>
     </>
   );
@@ -157,59 +204,118 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000",
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 45,
-    paddingHorizontal: 15,
-    paddingBottom: 15,
-    backgroundColor: "#6263ed", // Header background color
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
-  },
-  logo: {
-    width: 24,
-    height: 24, // Adjust size as needed
-  },
   body: {
     flex: 1,
-    padding: 10,
   },
-  card: {
-    flex: 1,
-    marginBottom: 15,
-    borderRadius: 15,
-    overflow: "hidden",
-    borderColor: "#6362ed",
-    borderWidth: 2,
-    alignItems: "center",
+  btn: {
+    backgroundColor: "#4F75FF",
+    padding: 10,
+    borderRadius: 10,
+    textAlign: "center",
   },
   backgroundImage: {
     width: "100%",
-    height: 200, // Adjusted height for uniform size
-    justifyContent: "flex-start",
-    borderRadius: 15,
+    justifyContent: "flex-end",
+    height: "50%",
   },
   cardTitle: {
     color: "#fff",
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
   },
-  icon: {
-    marginTop: 10,
-    marginHorizontal: 3,
+  exercise: {
+    color: "#fff",
+    fontSize: 16,
   },
-  iconsV: {
-    flexDirection: "row",
+  icon: {
+    padding: 10,
+    backgroundColor: "#181920",
+    borderRadius: 10,
+    width: 45,
+    height: 45,
+    marginLeft: 25,
   },
   scrollViewContent: {
     flexGrow: 1,
-    paddingBottom: 20, // Add padding to the bottom for better scroll experience
+    paddingBottom: 20,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "flex-end",
-    padding: 15,
+    justifyContent: "center",
+  },
+  content: {
+    backgroundColor: "#181920",
+    height: "60%",
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  Topcontent: {
+    height: "40%",
+    paddingTop: 45,
+  },
+  TextView: {
+    flexDirection: "row",
+    padding: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  lontrima: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  lontrimaItems: {
+    backgroundColor: "#222831",
+    width: "90%",
+    borderRadius: 10,
+    flexDirection: "row",
+    marginVertical: 10,
+  },
+  imag: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+  },
+  ViewItems: {
+    padding: 5,
+    justifyContent: "center",
+    width: "60%",
+  },
+  Viewsets: {
+    padding: 5,
+    flexDirection: "row",
+  },
+  Title: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  sets: {
+    color: "gray",
+    fontSize: 14,
+    marginHorizontal: 3,
+  },
+  BoxCheck: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullScreenImage: {
+    width: "90%",
+    height: "80%",
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
   },
 });
