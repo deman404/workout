@@ -30,15 +30,7 @@ export default function Goals() {
     { id: 5, label: "Increase flexibility", isChecked: false },
   ]);
 
-  useEffect(() => {
-    const backAction = () => true; // Prevents back navigation
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-      };
-    }
-  }, []);
+  
 
   const handleButtonPress = async () => {
     if (selectTaps.some((tap) => tap.isChecked)) {

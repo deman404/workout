@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -42,11 +42,7 @@ export default function Gender() {
     }
   };
 
-  const handleButtonPress = () => {
-    if (selectedGender) {
-      router.replace("/Age");
-    }
-  };
+  
 
   const handleGenderSelect = (gender: GenderType) => {
     saveGender(gender); // Save the selected gender
@@ -59,12 +55,7 @@ export default function Gender() {
       return true; // Prevents the back action
     };
 
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-      };
-    }
+    
   }, []);
 
   return (
@@ -97,9 +88,9 @@ export default function Gender() {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, !selectedGender && styles.buttonDisabled]}
-              onPress={handleButtonPress}
               disabled={!selectedGender}
             >
+              <Link href={'./Age'} />
               <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>

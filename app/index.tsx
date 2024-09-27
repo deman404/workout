@@ -26,7 +26,7 @@ export default function Index() {
   // Use effect to call the checkUserData function
   useEffect(() => {
     const timer = setTimeout(() => {
-      checkUserData();
+      router.replace("/Welcom");
     }, 3000); // Wait for 3 seconds before checking
     return () => clearTimeout(timer);
   }, []);

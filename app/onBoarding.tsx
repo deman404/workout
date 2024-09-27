@@ -28,12 +28,7 @@ export default function OnBoarding() {
       return true; // Prevents the back action
     };
 
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-      };
-    }
+    
   }, []);
 
   return (

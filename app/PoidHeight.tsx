@@ -48,12 +48,7 @@ export default function PoidHeight() {
       return true; // Prevent back navigation
     };
 
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-      };
-    }
+    
   }, []);
 
   const handleButtonPress = () => {

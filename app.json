@@ -4,11 +4,11 @@
     "slug": "WorkOut",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/gym.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/gym.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,22 +20,22 @@
           "remote-notification"
         ]
       },
-      "bundleIdentifier": "com.workout.testapp"
+      "bundleIdentifier": "com.workout"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/gym.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "RECEIVE_BOOT_COMPLETED"
       ],
-      "package": "com.workout.testapp"
+      "package": "com.workout"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/gym.png"
     },
     "plugins": [
       "expo-router"
